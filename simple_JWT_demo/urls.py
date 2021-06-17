@@ -16,21 +16,12 @@ Including another URLconf
 from django.contrib import admin
 from django.urls import path, include
 
-# 导入django-rest-framework包提供的类，下面编写自定义视图时会用到
-from rest_framework.views import APIView, Response
-
 # 导入 simplejwt 提供的几个验证视图类
 from rest_framework_simplejwt.views import (
     TokenObtainPairView,
     TokenRefreshView,
     TokenVerifyView
 )
-
-
-# 创建一个自定义的视图，仅实现get方法做测试
-class IndexView(APIView):
-    def get(self, request):
-        return Response('这个页面需要登录后的用户才能看见', status=200)
 
 
 urlpatterns = [
@@ -46,6 +37,6 @@ urlpatterns = [
     # 验证Token的有效性
     path('api/token/verify/', TokenVerifyView.as_view(), name='token_verify'),
 
-    # 用于测试的自定义视图
-    path('index/', IndexView.as_view(), name='index')
+    # 添加账号相关接口
+    path('account/', include('apps.account.urls'))
 ]
